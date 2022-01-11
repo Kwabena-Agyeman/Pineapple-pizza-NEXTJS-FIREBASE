@@ -13,6 +13,7 @@ export default function Home() {
   //Destructure user, loading and error out of the hook
   const [user, loading, error] = useAuthState(auth);
   //Destructure a listening snapshot, loading anf error out of the hook
+  //Snapshot is monitoring our DB, and changes when ever there is a change
   const [snapshot, votesLoading, votesError] = useCollection(votesQuery, {});
 
   //console.log the current user and the loading status
@@ -31,28 +32,42 @@ export default function Home() {
     <div
       style={{
         display: "flex",
-        height: "100vh",
         width: "100vw",
+        height: "100vh",
         alignItems: "center",
         justifyContent: "center",
+        flexDirection: "column",
+        gridGap: 8,
+        background:
+          "linear-gradient(180deg,rgba(238,174,202,1) 0%, rgba(146,187,233,1) 100%)",
       }}
     >
-      <button
-        onClick={() => {
-          addVoteDocument("yes");
-        }}
-        style={{ fontSize: 32, marginRight: 8 }}
-      >
-        ✅🍍🍕
-      </button>
-      <button
-        onClick={() => {
-          addVoteDocument("no");
-        }}
-        style={{ fontSize: 32 }}
-      >
-        ❌🍍🍕
-      </button>
+      <h1>Pineapple on Pizza?</h1>
+
+      <div style={{ flexDirection: "row", display: "flex" }}>
+        <button
+          style={{ fontSize: 32, marginRight: 8 }}
+          onClick={() => addVoteDocument("yes")}
+        >
+          ✅🍍🍕
+        </button>
+        <h3>
+          Pineapple Lovers :{" "}
+          {snapshot?.docs?.filter((doc) => doc.data().vote === "yes").length}
+        </h3>
+      </div>
+      <div style={{ flexDirection: "row", display: "flex" }}>
+        <button
+          style={{ fontSize: 32, marginRight: 8 }}
+          onClick={() => addVoteDocument("no")}
+        >
+          ❌🍍🍕
+        </button>
+        <h3>
+          Pineapple Hater :{" "}
+          {snapshot?.docs?.filter((doc) => doc.data().vote === "no").length}
+        </h3>
+      </div>
     </div>
   );
 }
