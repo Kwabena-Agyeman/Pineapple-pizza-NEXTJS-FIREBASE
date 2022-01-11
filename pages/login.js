@@ -2,7 +2,7 @@
 
 import React from "react";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
-import { auth } from "../firebase";
+import { auth } from "../firebase/index";
 import { GoogleAuthProvider } from "firebase/auth";
 import { useRouter, Router } from "next/router";
 

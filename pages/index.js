@@ -6,7 +6,7 @@ import styles from "../styles/Home.module.css";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { collection, doc, setDoc } from "firebase/firestore";
-import { auth, db } from "../firebase";
+import { auth, db } from "../firebase/index";
 
 export default function Home() {
   const votesQuery = collection(db, "votes");
@@ -19,9 +19,9 @@ export default function Home() {
   //console.log the current user and the loading status
   console.log("Loading :", loading, "|", "Current User :", user);
 
-  if (!votesLoading && snapshot) {
-    snapshot.docs.map((doc) => console.log(doc.data()));
-  }
+  // if (!votesLoading && snapshot) {
+  //   snapshot.docs.map((doc) => console.log(doc.data()));
+  // }
 
   //Create a document funtion
   const addVoteDocument = async (vote) => {
