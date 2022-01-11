@@ -1,12 +1,10 @@
 /** @format */
 
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../firebase/index";
+import VoterList from "../components/VoterList/VoterList";
 
 export default function Home() {
   const votesQuery = collection(db, "votes");
@@ -16,11 +14,11 @@ export default function Home() {
   //Snapshot is monitoring our DB, and changes when ever there is a change
   const [snapshot, votesLoading, votesError] = useCollection(votesQuery, {});
 
-  //console.log the current user and the loading status
-  console.log("Loading :", loading, "|", "Current User :", user);
-
   // if (!votesLoading && snapshot) {
-  //   snapshot.docs.map((doc) => console.log(doc.data()));
+  //   snapshot.docs.map((doc) => {
+  //     console.log("DOCS DATA", doc.data());
+  //     console.log("ID", doc.id);
+  //   });
   // }
 
   //Create a document funtion
@@ -68,6 +66,37 @@ export default function Home() {
           {snapshot?.docs?.filter((doc) => doc.data().vote === "no").length}
         </h3>
       </div>
+
+      <div style={{ marginTop: "64px" }}>
+        <h3>Voters:</h3>
+        <div
+          style={{
+            maxHeight: "320px",
+            overflowY: "auto",
+            width: "240px",
+          }}
+        >
+          {snapshot?.docs?.map((doc) => (
+            <VoterList key={doc.id} id={doc.id} vote={doc.data().vote} />
+          ))}
+        </div>
+      </div>
+
+      <button
+        onClick={() => {
+          auth.signOut();
+        }}
+        style={{
+          backgroundColor: "red",
+          padding: 20,
+          color: "white",
+          border: ",5px solid black",
+          borderRadius: 10,
+          fontSize: 16,
+        }}
+      >
+        Sign out
+      </button>
     </div>
   );
 }

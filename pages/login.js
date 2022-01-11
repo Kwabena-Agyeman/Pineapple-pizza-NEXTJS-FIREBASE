@@ -19,7 +19,7 @@ const Login = () => {
     callbacks: {
       // Avoid redirects after sign-in.
       signInSuccessWithAuthResult: (user) => {
-        console.log({ user });
+        // console.log({ user });
         router.push("/");
       },
     },
